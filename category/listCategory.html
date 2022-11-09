@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="createCategory.html">Create Category</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>USER</th>
+        <th>DELETE</th>
+        <th>EDIT</th>
+    </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+<script>
+    let url = "http://localhost:8080/api/categories";
+    $(document).ready(function () {
+        showForm();
+    })
+
+    function showForm() {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            contentType: 'application/Json; charset=UTF-8',
+            success: function (data) {
+                let drawTable = ''
+                for (let i = 0; i < data.length; i++) {
+                    console.log("data", data[i])
+                    drawTable += `<tr>
+<td>${data[i].id}</td>
+<td>${data[i].name}</td>
+ <td>${data[i].user.name}</td>
+ <td><a href="deleteCategory.html?id=${data[i].id}">Delete</a></td>
+  <td><a href="editCategory.html?id=${data[i].id}">Edit</a></td>
+</tr>`
+                }
+                document.getElementById('tbody').innerHTML = drawTable
+
+            }
+        })
+    }
+</script>
+</body>
+</html>
